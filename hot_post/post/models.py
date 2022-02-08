@@ -1,4 +1,7 @@
 from django.db import models
 
 # Create your models here.
-1
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    photo = models.URLField(blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
