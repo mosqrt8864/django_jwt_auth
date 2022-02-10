@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./hot_post:/app
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:3003"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=mytest
+      - DB_USER=stanley
+      - DB_PASS=password
+    depends_on:
+      - db
+  db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=mytest
+      - POSTGRES_USER=stanley
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+volumes:
+  postgres-volume:
